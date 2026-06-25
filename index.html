@@ -29,7 +29,7 @@
         </tr>
       </thead>
       <tbody></tbody>
-        <tfoot>
+      <tfoot>
         <tr>
           <th></th>
           <th>Average</th>
@@ -100,9 +100,9 @@
               const sum = values =>
                   values.reduce((sum, value) => sum + value, 0);
       
-              const enrolled = visibleColumnData(3);
-              const ratings = visibleColumnData(4);
-              const xp = visibleColumnData(5);
+              const enrolled = visibleColumnData(2);
+              const ratings = visibleColumnData(3);
+              const xp = visibleColumnData(4);
       
               document.querySelector("#avg-enrolled").textContent =
                   Math.round(average(enrolled)).toLocaleString();

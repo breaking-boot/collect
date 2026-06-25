@@ -65,9 +65,9 @@
           row.innerHTML = `
               <td>${course.UUID}</td>
               <td>${course.Title}</td>
-              <td>${course.NumEnrolled.toLocaleString()}</td>
+              <td>${course.NumEnrolled?.toLocaleString()}</td>
               <td>${course.Rating?.Average?.toFixed(2) ?? ""}</td>
-              <td>${course.CompletionXp.toLocaleString()}</td>
+              <td>${course.CompletionXp?.toLocaleString()}</td>
           `;
   
           tbody.appendChild(row);

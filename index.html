@@ -23,13 +23,28 @@
         <tr>
           <th>UUID</th>
           <th>Title</th>
-          <th>Status</th>
           <th>Enrolled Students</th>
           <th>Rating</th>
           <th>Completion XP</th>
         </tr>
       </thead>
       <tbody></tbody>
+        <tfoot>
+        <tr>
+          <th></th>
+          <th>Average</th>
+          <th id="avg-enrolled"></th>
+          <th id="avg-rating"></th>
+          <th id="avg-xp"></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th>Sum</th>
+          <th></th>
+          <th></th>
+          <th id="sum-xp"></th>
+        </tr>
+      </tfoot>
     </table>
   </div>
 
@@ -50,7 +65,6 @@
           row.innerHTML = `
               <td>${course.UUID}</td>
               <td>${course.Title}</td>
-              <td>${course.Status}</td>
               <td>${course.NumEnrolled.toLocaleString()}</td>
               <td>${course.Rating?.Average?.toFixed(2) ?? ""}</td>
               <td>${course.CompletionXp.toLocaleString()}</td>
@@ -61,7 +75,47 @@
   
       new DataTable("#coursesTable", {
           pageLength: 25,
-          order: [[1, "asc"]]
+          order: [[1, "asc"]],
+      
+          footerCallback: function () {
+              const api = this.api();
+      
+              const parseNumber = value => {
+                  if (typeof value === "number") return value;
+                  return Number(String(value).replace(/,/g, "")) || 0;
+              };
+      
+              const visibleColumnData = columnIndex =>
+                  api
+                      .column(columnIndex, { search: "applied" })
+                      .data()
+                      .toArray()
+                      .map(parseNumber);
+      
+              const average = values => {
+                  if (values.length === 0) return 0;
+                  return values.reduce((sum, value) => sum + value, 0) / values.length;
+              };
+      
+              const sum = values =>
+                  values.reduce((sum, value) => sum + value, 0);
+      
+              const enrolled = visibleColumnData(3);
+              const ratings = visibleColumnData(4);
+              const xp = visibleColumnData(5);
+      
+              document.querySelector("#avg-enrolled").textContent =
+                  Math.round(average(enrolled)).toLocaleString();
+      
+              document.querySelector("#avg-rating").textContent =
+                  average(ratings).toFixed(2);
+      
+              document.querySelector("#avg-xp").textContent =
+                  Math.round(average(xp)).toLocaleString();
+      
+              document.querySelector("#sum-xp").textContent =
+                  sum(xp).toLocaleString();
+          }
       });
   }
   

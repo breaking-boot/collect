@@ -63,11 +63,11 @@
           const row = document.createElement("tr");
   
           row.innerHTML = `
-              <td>${course.UUID}</td>
-              <td>${course.Title}</td>
-              <td>${course.NumEnrolled?.toLocaleString()}</td>
-              <td>${course.Rating?.Average?.toFixed(2) ?? ""}</td>
-              <td>${course.CompletionXP?.toLocaleString()}</td>
+              <td>${course.uuid}</td>
+              <td>${course.title}</td>
+              <td>${course.numEnrolled?.toLocaleString()}</td>
+              <td>${course.rating?.average?.toFixed(2) ?? ""}</td>
+              <td>${course.completionXP?.toLocaleString()}</td>
           `;
   
           tbody.appendChild(row);
